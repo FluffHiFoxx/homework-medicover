@@ -24,7 +24,7 @@ export const WeatherForecast: React.FC<Props> = ({
 			margin={{ xs: "2em 2em 0 2em", md: "2em 0 2em 0" }}
 			flexGrow={3}
 		>
-			<Box width="40%" paddingBottom={{ xs: "4em", md: 0 }}>
+			<Box width={{xs: "100%", md: "40%"}} paddingBottom={{ xs: "1em", md: 0 }}>
 				<Button onClick={onClick} variant="card">
 						<Typography variant="body2" >{weather?.city ?? NO_DATA}</Typography>
 						<Typography variant="h2" >{weather?.temperature ?? NO_DATA} °C</Typography>
@@ -46,8 +46,8 @@ export const WeatherForecast: React.FC<Props> = ({
 								container
 								key={forecast.day}
 								bgcolor={index === 0 ? "rgb(0, 0, 0, 0.1)" : "none"}
-								padding="0.5em"
-								borderRadius={5}
+								padding={{ xs: "0.25em", md:"0.5em" }}
+								borderRadius={{ xs: 3, md: 5 }}
 								alignItems="center"
 							>
 								<Grid item xs>

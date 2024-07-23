@@ -64,7 +64,7 @@ export const SearchModal: React.FC<Props> = ({
 					alignContent="center"
 					sx={{ background: "rgb(0, 0, 0, 0.2)" }}
 				>
-					<Card sx={{ width: { xs: "90%", md: "70%", lg: "60%" }, height: "80%" }}>
+					<Card sx={{ width: { xs: "90%", md: "50%", lg: "40%" }, height: "80%" }}>
 						<CardHeader
 							title="Város kereső"
 							action={
@@ -106,14 +106,11 @@ export const SearchModal: React.FC<Props> = ({
 										divider
 									>
 										<Grid container>
-												<Grid container item xs={5} justifyContent="start" alignItems="center">
+												<Grid container item xs={7} justifyContent="start" alignItems="center">
 													<Typography textOverflow="ellipsis" variant="h6">{city.name}</Typography>
 												</Grid>
-												<Grid container item xs={3} justifyContent="start" alignItems="center">
+												<Grid container item xs={5} justifyContent="center" alignItems="center">
 													<Typography textOverflow="ellipsis" variant="body1">{city.country}</Typography>
-												</Grid>
-												<Grid container item xs={4} justifyContent="start" alignItems="center">
-													<Typography textOverflow="ellipsis" variant="body1">{city.timezone}</Typography>
 												</Grid>
 											</Grid>
 									</ListItemButton>

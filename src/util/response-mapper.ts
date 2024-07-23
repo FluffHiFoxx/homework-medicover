@@ -3,7 +3,8 @@ import {
 	DailyResponse,
 	Forecast,
 	Weather,
-	WeatherResponse
+	WeatherResponse,
+	WmoCode
 } from "../model/Weather/weather";
 import wmoCodes from "./wmo-codes.json";
 
@@ -20,22 +21,25 @@ const DAYS_OF_WEEK = [
 
 export const mapToWeather = (weatherResponse: WeatherResponse, cityName: string): Weather => {
 	const weatherCode = weatherResponse.current.weather_code.toString();
-	const weatherState = wmoCodes as { [key: string]: string };
+	const weatherState = wmoCodes as { [key: string]: WmoCode };
 
 	return ({
 		city: cityName,
 		temperature: weatherResponse.current.temperature_2m,
-		state: weatherState[weatherCode],
+		state: weatherState[weatherCode].title,
 		forecast: mapToForecast(weatherResponse.daily)
 	});
 };
 
 const mapToForecast = (daily: DailyResponse): Forecast[] => {
+	const weatherState = wmoCodes as { [key: string]: WmoCode };
+
 	return daily.time.map((time, i) => ({
 		day: DAYS_OF_WEEK[new Date(time).getDay()],
-		rainPrecentage: daily.precipitation_sum[i],
+		rainPrecentage: daily.precipitation_probability_max[i],
 		tempMax: daily.temperature_2m_max[i],
-		tempMin: daily.temperature_2m_min[i]
+		tempMin: daily.temperature_2m_min[i],
+		wmoCode: weatherState[daily.weather_code[i].toString()]
 	}));
 };
 

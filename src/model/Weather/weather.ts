@@ -17,7 +17,7 @@ export type DailyResponse = {
 	weather_code: number[]
 	temperature_2m_max: number[]
 	temperature_2m_min: number[]
-	precipitation_sum: number[]
+	precipitation_probability_max: number[]
 };
 
 export type Forecast = {
@@ -25,6 +25,7 @@ export type Forecast = {
 	rainPrecentage: number
 	tempMax: number
 	tempMin: number
+	wmoCode: WmoCode
 };
 
 export type Weather = {
@@ -32,4 +33,9 @@ export type Weather = {
 	temperature: number
 	state: string
 	forecast: Forecast[]
+};
+
+export type WmoCode = {
+	title: string
+	icon: string
 };

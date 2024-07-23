@@ -1,24 +1,34 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import RainIcon from "../RainIcon";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { City } from "../../model/City/city";
+import { fetchWeather } from "../../model/Weather/weather-api";
+import { mapToWeather } from "../../util/response-mapper";
+import { getStoredCity, storeCity } from "../../util/storage-manager";
+import { LoadingOverlay } from "../Loading";
+import { WeatherForecast } from "./Forecast";
+import { LineChart } from "./LineChart";
+import { SearchModal } from "./SearchModal";
 
-//TODO: Remove after fetch implementation
-const DEFAULT_WEATHER = {
-	city: "Város név",
-	temperature: null,
-	state: "Időjárás",
-	week: [
-		{
-			day: "Nap",
-			rain: 0,
-			tempMax: null,
-			tempMin: null
-		}
-	]
-};
+const FIFTEEN_MINUTES_MS = 900000;
 
 export const WeatherDisplay: React.FC = () => {
-	const weather = DEFAULT_WEATHER;
+	const [ city, setCity ] = useState<City | null>(getStoredCity());
+	const [ modalOpen, setModalOpen ] = useState<boolean>(!city);
+
+	const { data: cityWeather, isFetching: cityWeatherIsLoading } = useQuery({
+		queryKey: ["weather", city],
+		queryFn: () => fetchWeather(city!),
+		enabled: !!city,
+		refetchInterval: FIFTEEN_MINUTES_MS
+	});
+
+	const weather = cityWeather && city ? mapToWeather(cityWeather, city.name) : undefined;
+
+	const handleCitySelection = (selectedCity: City) => {
+		storeCity(selectedCity);
+		setCity(selectedCity);
+	};
 
 	return (
 		<Box
@@ -27,53 +37,12 @@ export const WeatherDisplay: React.FC = () => {
 			height="100%"
 			width="100%"
 		>
-			<Box
-				display="flex"
-				flexDirection={{ xs: "column", md: "row" }}
-				margin={{ xs: "2em 2em 0 2em", md: "4em 0 2em 0" }}
-				flexGrow={3}
-			>
-				<Box width="40%" paddingBottom={{ xs: "4em", md: 0 }}>
-					<Typography variant="body2" >{weather.city}</Typography>
-					<Typography variant="h2" >{weather.temperature ?? "--"} °C</Typography>
-					<Typography variant="body1" >{weather.state}</Typography>
-				</Box>
-				<Box
-					display="flex"
-					flexDirection="column"
-					width={{ xs: "100%", md: "60%" }}
-					height="100%"
-					justifyContent="space-evenly"
-				>
-					<Typography variant="caption">7 napos előrejelzés</Typography>
-					{[...Array(7)].map((i, index) => (
-						<Box key={index} display="flex" justifyContent="space-between">
-							<Typography variant="h6" >{weather.week[i]?.day ?? weather.week[0].day}</Typography>
-							<Box display="flex" gap="0.25em">
-								<RainIcon fontSize={32}/>
-								<Typography variant="h6" >
-									{weather.week[i]?.rain ?? weather.week[0].rain}%
-								</Typography>
-							</Box>
-							<Typography variant="h6" >
-								{weather.week[i]?.tempMax ?? "--"} °C / {weather.week[i]?.tempMin ?? "--"} °C
-							</Typography>
-						</Box>
-					))}
-				</Box>
-			</Box>
+			<LoadingOverlay enabled={cityWeatherIsLoading} />
 
-			{/* TODO: Remove -- Placeholder for actual LineChart vvv */}
-			<Box
-				flexGrow={4}
-				margin={{ xs: "0 2em 0 2em", md:"0 0 0 40%" }}
-				sx={{
-					border: 2,
-					borderColor: "#fff",
-					borderRadius: 10
-				}}
-			/>
-			{/* TODO: Remove -- Placeholder for actual LineChart ^^^ */}
+			<WeatherForecast weather={weather} onClick={() => setModalOpen(true)} />
+			<LineChart/>
+
+			<SearchModal open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={handleCitySelection} />
 		</Box>
 	);
 };

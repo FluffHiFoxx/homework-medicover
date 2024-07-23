@@ -7,7 +7,7 @@ import { mapToWeather } from "../../util/response-mapper";
 import { getStoredCity, storeCity } from "../../util/storage-manager";
 import { LoadingOverlay } from "../Loading";
 import { WeatherForecast } from "./Forecast";
-import { LineChart } from "./LineChart";
+import { Diagram } from "./Diagram";
 import { SearchModal } from "./SearchModal";
 
 const FIFTEEN_MINUTES_MS = 900000;
@@ -38,10 +38,8 @@ export const WeatherDisplay: React.FC = () => {
 			width="100%"
 		>
 			<LoadingOverlay enabled={cityWeatherIsLoading} />
-
 			<WeatherForecast weather={weather} onClick={() => setModalOpen(true)} />
-			<LineChart/>
-
+			<Diagram weather={weather} />
 			<SearchModal open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={handleCitySelection} />
 		</Box>
 	);

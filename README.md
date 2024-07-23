@@ -24,7 +24,7 @@ Related weather and a 7 day forcast for the saved or selected city will be displ
 
 - React
 - Typescript
-- [TanStack](https://tanstack.com/)
+- [TanStack Query](https://tanstack.com/)
 - [Material UI](https://mui.com/)
 
 ## How to start

@@ -86,6 +86,7 @@ export const SearchModal: React.FC<Props> = ({
 							>
 								<TextField
 									autoFocus
+									autoComplete="off"
 									type="text"
 									variant="filled"
 									value={cityName}

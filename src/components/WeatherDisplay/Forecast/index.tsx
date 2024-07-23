@@ -61,19 +61,19 @@ export const WeatherForecast: React.FC<Props> = ({
 									<Typography variant="body1" >
 										{forecast.day ?? NO_DATA}
 									</Typography>
-									<Typography fontSize={"1.25em"}>
+									<Typography fontSize={{ xs: "0.75em" ,md: "1.25em" }}>
 										<i className={forecast.wmoCode.icon} />
 									</Typography>
 								</Grid>
 								<Grid
 									container
 									item
-									xs={4}
-									justifyContent={{ xs: "start", md: "center" }}
+									xs={3}
+									justifyContent="center"
 									alignItems="center"
 									gap="0.5em"
 								>
-									<Typography fontSize={"1.25em"}>
+									<Typography fontSize={{ xs: "0.75em" ,md: "1.25em" }}>
 										<i className="wi wi-showers" />
 									</Typography>
 									<Typography variant="body1" >
@@ -83,7 +83,7 @@ export const WeatherForecast: React.FC<Props> = ({
 								<Grid
 									container
 									item
-									xs={4}
+									xs={5}
 									justifyContent="end"
 									alignItems="center"
 								>

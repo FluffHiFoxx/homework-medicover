@@ -22,12 +22,17 @@ Related weather and a 7 day forcast for the saved or selected city will be displ
 
 ## Stack used
 
-- React
-- Typescript
+- [React](https://react.dev/)
+- [Typescript](https://www.typescriptlang.org/)
 - [TanStack Query](https://tanstack.com/)
 - [Material UI](https://mui.com/)
 
+#### Extra Credit for the used icons
+- [Weather Icons - Erik Flowers](http://erikflowers.github.io/weather-icons)
+
 ## How to start
+
+This project requires [Node.js](https://nodejs.org/en) to be installed.
 
 Install required packages with `npm install`
 
